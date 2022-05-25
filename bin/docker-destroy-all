@@ -9,4 +9,6 @@ if [ -z "$(command -v docker)" ]; then
   exit 1
 fi
 
-exec docker inspect --format '{{ .State.Pid }}' "$@"
+docker stop $(docker ps -aq)
+docker rm $(docker ps -qa)
+docker network prune -f
