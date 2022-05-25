@@ -1,5 +1,7 @@
 # Repo structure
 
+Use the correct OS folder. The guide below is tailored for `Ubuntu-18.04/`
+
 ## Install folder
 
 The files in here are meant to install only the entitled application, without worring about dependencies.

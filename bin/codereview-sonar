@@ -1,0 +1,32 @@
+#!/bin/bash
+
+#
+#  ##      ##  ######  ######
+#  ##      ##    ##    ##   ##
+#  ##  ##  ##    ##    ######
+#  ## #### ##    ##    ##
+#  ####  ####  ######  ##
+#
+
+# Abort if anything fails.
+set -e
+
+TARGET_BRANCH="${1}"
+SONAR_LOGIN="YOUR_SONAR_LOGIN_HASH"
+SONAR_HOST_URL="YOUR_SONAR_HTTPS_URL"
+
+ROOT=$(git rev-parse --show-toplevel)
+# List of files that were modified in the current branch against the target.
+FILES=$(git diff --name-only "${TARGET_BRANCH}")
+
+for FILE in $FILES; do
+  case "${FILE}" in
+    *.php | *.module | *.inc | *.install | *.test | *.profile | *.theme | *.js | *.css | *.scss | *.info | *.txt )
+      # Run PHP_CodeSniffer.
+      echo
+      echo "${FILE}"
+      docker exec sonarsource/sonar-scanner-cli -e SONAR_HOST_URL="${SONAR_HOST_URL}" -e SONAR_LOGIN="${SONAR_LOGIN}" -it
+      echo "====="
+      ;;
+  esac
+done;

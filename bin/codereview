@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Abort if anything fails.
+set -e
+
+# Check if the command exists.
+if [ -z "$(command -v phpcs)" ]; then
+  echo "PHPCS not found."
+  exit 1
+fi
+
+# Run PHP_CodeSniffer.
+phpcs --standard=Drupal,DrupalPractice --extensions=php,module,inc,install,test,profile,theme,js,css,info,txt "${1}"

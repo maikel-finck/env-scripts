@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Abort if anything fails.
+set -e
+
+# Check if the command exists.
+if [ -z "$(command -v docker)" ]; then
+  echo "DOCKER not found."
+  exit 1
+fi
+
+docker inspect --format '{{ .NetworkSettings.IPAddress }}' "$@"

@@ -1,0 +1,33 @@
+#!/bin/bash
+
+echo "Stopping FortiClient VPN..."
+sudo systemctl stop forticlient-scheduler.service
+
+echo "Stopping Docker..."
+sudo systemctl stop docker.socket
+sudo systemctl stop docker.service
+
+echo "Restarting Network Manager..."
+sudo systemctl restart NetworkManager.service
+
+echo "Stopping Network..."
+sudo nmcli networking off
+
+echo
+echo "Waiting network to go dark..."
+echo
+sleep 5
+
+echo "Starting Network..."
+sudo nmcli networking on
+
+echo "Starting Docker..."
+sudo systemctl start docker.service
+sudo systemctl start docker.socket
+
+echo "Starting FortiClient VPN..."
+sudo systemctl start forticlient-scheduler.service
+
+echo
+echo "Done!"
+
